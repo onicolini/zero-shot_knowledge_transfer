@@ -134,7 +134,6 @@ class ZeroShotKTSolver(object):
                 if (self.n_pseudo_batches+1) % self.args.log_freq == 0:
                     test_acc = self.test()
                     # in the last 5% of the batches the test is odne for every batch
-                    test_acc = self.test()
 
                     with torch.no_grad():
                         print('\nBatch {}/{} -- Generator Loss: {:02.2f} -- Student Loss: {:02.2f} -- Test Acc: {:02.2f}%'.format(self.n_pseudo_batches, self.args.total_n_pseudo_batches, running_generator_total_loss.avg(), running_student_total_loss.avg(), test_acc*100))
