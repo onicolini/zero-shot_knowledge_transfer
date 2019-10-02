@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import torch
 from solver import FewShotKTSolver
 from utils.helpers import *
