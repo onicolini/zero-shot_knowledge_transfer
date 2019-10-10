@@ -207,10 +207,11 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     x = Dense(nb_classes, W_regularizer=l2(weight_decay), activation='softmax')(x)
     
     model = Model(ip,x)
+    model_copy = Model(ip,x)
     
     m1 = Model(ip,[out1,x])
     m2 = Model(ip,[out2,x])
     m3 = Model(ip,[out3,x])
 
     if verbose: print("Wide Residual Network-%d-%d created." % (nb_conv, k))
-    return model,m1,m2,m3
+    return model,model_copy,m1,m2,m3
