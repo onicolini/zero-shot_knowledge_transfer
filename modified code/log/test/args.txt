@@ -1,5 +1,5 @@
 dataset 	 CIFAR10
-total_n_pseudo_batches 	 100
+total_n_pseudo_batches 	 80000
 n_generator_iter 	 1
 n_student_iter 	 10
 batch_size 	 128
@@ -9,7 +9,7 @@ generator_learning_rate 	 0.001
 teacher_architecture 	 WRN-16-2
 student_architecture 	 WRN-16-1
 KL_temperature 	 1
-AT_beta 	 250
+AT_beta 	 1e-26
 pretrained_models_path 	 ./pretrained/
 datasets_path 	 ./datasets/
 log_directory_path 	 ./log/
@@ -17,9 +17,9 @@ save_final_model 	 0
 save_n_checkpoints 	 0
 save_model_path 	 ./save_model/
 seeds 	 [0]
-workers 	 1
+workers 	 2
 use_gpu 	 True
 dataset_path 	 ./datasets/
-log_freq 	 5
+log_freq 	 25
 experiment_name 	 test
 device 	 cuda

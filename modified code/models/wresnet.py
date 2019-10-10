@@ -9,6 +9,7 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torchsummary import summary
 
 
 class BasicBlock(nn.Module):
@@ -97,8 +98,17 @@ class WideResNet(nn.Module):
         out = F.avg_pool2d(out, 8)
         out = out.view(-1, self.nChannels)
         return self.fc(out), activation1, activation2, activation3
+    
 
-
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # PyTorch v0.4.0
+model = WideResNet(depth=16, num_classes=10, widen_factor=2, dropRate=0.0).to(device)
+summary(model, input_size=(3, 32, 32))
+    
+    
+#x = torch.FloatTensor(64, 3, 32, 32).uniform_(0, 1)
+#model = WideResNet(depth=16, num_classes=10, widen_factor=2, dropRate=0.0)
+print(summary(model, input_size=(3, 32, 32)))
+"""
 if __name__ == '__main__':
     import random
     import time
@@ -109,19 +119,21 @@ if __name__ == '__main__':
     ### WideResNets
     # Notation: W-depth-widening_factor
     #model = WideResNet(depth=16, num_classes=10, widen_factor=1, dropRate=0.0)
-    #model = WideResNet(depth=16, num_classes=10, widen_factor=2, dropRate=0.0)
+    model = WideResNet(depth=16, num_classes=10, widen_factor=2, dropRate=0.0)
     #model = WideResNet(depth=16, num_classes=10, widen_factor=8, dropRate=0.0)
     #model = WideResNet(depth=16, num_classes=10, widen_factor=10, dropRate=0.0)
     #model = WideResNet(depth=22, num_classes=10, widen_factor=8, dropRate=0.0)
     #model = WideResNet(depth=34, num_classes=10, widen_factor=2, dropRate=0.0)
     #model = WideResNet(depth=40, num_classes=10, widen_factor=10, dropRate=0.0)
     #model = WideResNet(depth=40, num_classes=10, widen_factor=1, dropRate=0.0)
-    model = WideResNet(depth=40, num_classes=10, widen_factor=2, dropRate=0.0)
+    #model = WideResNet(depth=40, num_classes=10, widen_factor=2, dropRate=0.0)
     ###model = WideResNet(depth=50, num_classes=10, widen_factor=2, dropRate=0.0)
 
+    model.to("cpu")
     t0 = time.time()
     output, *act = model(x)
     print("Time taken for forward pass: {} s".format(time.time() - t0))
     print("\nOUTPUT SHPAE: ", output.shape)
+"""
 
-    summary(model, input_size=(3, 32, 32))
+    #print(summary(model, input_size=(3, 32, 32)))

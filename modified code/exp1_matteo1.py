@@ -49,7 +49,7 @@ def main():
     args.teacher_architecture = 'WRN-16-2'
     args.student_architecture = 'WRN-16-1'
     args.KL_temperature = 1
-    args.AT_beta = 250
+    args.AT_beta = 0.00000000000000000000000001
     
     args.pretrained_models_path = "./pretrained/"
     args.datasets_path = "./datasets/"
@@ -62,7 +62,7 @@ def main():
     args.use_gpu = True    
     
     args.dataset_path = "./datasets/"
-    args.log_freq = 100
+    args.log_freq =25
     
     args.experiment_name = "test"   
     args.device = torch.device('cuda')
