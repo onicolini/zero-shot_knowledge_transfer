@@ -6,7 +6,7 @@ from __future__ import print_function, division
 import numpy as np
 
 from keras.models import Model
-from keras.layers import Input, Add, Activation, Dropout, Flatten, Dense, Lambda
+from keras.layers import Input, Add, Activation, Dropout, Flatten, Dense
 from keras.layers.convolutional import Convolution2D, MaxPooling2D, AveragePooling2D
 from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
@@ -22,7 +22,7 @@ from keras.utils import plot_model
 import keras
 from keras.datasets import mnist
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Dense, Dropout, Flatten, Lambda
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
 from keras.datasets import cifar10
@@ -140,7 +140,7 @@ def conv3_block(input, k=1, dropout=0.0):
 # For WRN-16-8 put N = 2, k = 8
 # For WRN-28-10 put N = 4, k = 10
 # For WRN-40-4 put N = 6, k = 4
-def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.0, verbose=1):
+def create_wide_residual_network_student(input_dim, nb_classes=100, N=2, k=1, dropout=0.0, verbose=1):
     """
     Creates a Wide Residual Network with specified parameters
 
@@ -205,9 +205,6 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
 
     x = Dense(nb_classes, W_regularizer=l2(weight_decay), activation='softmax')(x)
     
-    model = Model(ip,x)
-    model_copy = Model(ip,x)
-    
     out1 = Lambda(lambda out1: out1 ** 2)(out1)
     out1 = Lambda(lambda out1: K.mean(out1, axis=-1))(out1)
     out1 = Flatten()(out1)
@@ -223,9 +220,9 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     out3 = Flatten()(out3)
     out3 = Lambda(lambda out3: K.l2_normalize(1000*out3, axis=1))(out3) 
     
-    m1 = Model(ip,[out1,x])
-    m2 = Model(ip,[out2,x])
-    m3 = Model(ip,[out3,x])
+    
+    model = Model(ip,[x,out1,out2,out3])
+    model_copy = Model(ip,x)
 
     if verbose: print("Wide Residual Network-%d-%d created." % (nb_conv, k))
-    return model,m1,m2,m3
+    return model,model_copy
