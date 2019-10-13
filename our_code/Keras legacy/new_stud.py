@@ -205,6 +205,7 @@ def create_wide_residual_network_student(input_dim, nb_classes=100, N=2, k=1, dr
 
     x = Dense(nb_classes, W_regularizer=l2(weight_decay), activation='softmax')(x)
     
+    ta_pred = Input(shape=(10,))
     ta1 = Input(shape=(1024,))
     ta2 = Input(shape=(256,))
     ta3 = Input(shape=(64,))
@@ -213,12 +214,12 @@ def create_wide_residual_network_student(input_dim, nb_classes=100, N=2, k=1, dr
     sa2 = Input(shape=(256,))
     sa3 = Input(shape=(64,))
     
-    out = Concatenate()([x,ta1,ta2,ta3,sa1,sa2,sa3])
+    out = Concatenate()([x,ta_pred,ta1,ta2,ta3,sa1,sa2,sa3])
     
     out = Lambda(lambda out: out)(out) 
     
     
-    model = Model([ip,ta1,ta2,ta3,sa1,sa2,sa3],out)
+    model = Model([ip,ta_pred,ta1,ta2,ta3,sa1,sa2,sa3],out)
     model_copy = Model(ip,x)
     m1 = Model(ip,[out1,x])
     m2 = Model(ip,[out2,x])
