@@ -40,9 +40,9 @@ def getData(batch_size,test_batch_size,val_percentage):
     training_data, validation_data = torch.utils.data.random_split(full_training_data, [training_samples, validation_samples])
 
     # Initialize dataloaders
-    train_loader = torch.utils.data.DataLoader(training_data,batch_size=batch_size,shuffle=True)
-    val_loader = torch.utils.data.DataLoader(validation_data,batch_size=batch_size,shuffle=False)
-    test_loader = torch.utils.data.DataLoader(test_data,batch_size=test_batch_size,shuffle=False)
+    train_loader = torch.utils.data.DataLoader(training_data,batch_size=batch_size,shuffle=True, num_workers=2)
+    val_loader = torch.utils.data.DataLoader(validation_data,batch_size=batch_size,shuffle=False, num_workers=2)
+    test_loader = torch.utils.data.DataLoader(test_data,batch_size=test_batch_size,shuffle=False, num_workers=2)
 
     return train_loader, val_loader, test_loader
 
@@ -117,7 +117,7 @@ def main(epochs, batch_size, test_batch_size,val_percentage,lr,test_freq,device,
     # Create the network: Wide_ResNet(depth, width, dropout, num_classes)
     net = Wide_ResNet(res_depth,res_width,0,10)
     net = net.to(device)
-    summary(net,input_size=(3,32,32))
+    #summary(net,input_size=(3,32,32))
 
     # Create the optimizer anche the learning rate scheduler
     optimizer = torch.optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
