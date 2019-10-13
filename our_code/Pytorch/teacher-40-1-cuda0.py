@@ -173,7 +173,7 @@ val_percentage = 0.01
 lr = 0.1
 test_freq = 20
 device = 'cuda:0'
-save_filename = './pretrained_models/teacher-16-2.pth'
+save_filename = './pretrained_models/teacher-40-1.pth'
 res_depth = 40
 res_width = 1
 
