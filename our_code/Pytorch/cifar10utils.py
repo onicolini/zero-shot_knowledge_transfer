@@ -28,8 +28,8 @@ def getData(batch_size,test_batch_size,val_percentage):
     ])
 
     # Download/Load data
-    full_training_data = torchvision.datasets.CIFAR10('./data',train = True,transform=transform_train,download=True)  
-    test_data = torchvision.datasets.CIFAR10('./data',train = False,transform=transform_test,download=True)  
+    full_training_data = torchvision.datasets.CIFAR10('/home/test/data',train = True,transform=transform_train,download=True)  
+    test_data = torchvision.datasets.CIFAR10('/home/test/data',train = False,transform=transform_test,download=True)  
 
     # Create train and validation splits
     num_samples = len(full_training_data)
