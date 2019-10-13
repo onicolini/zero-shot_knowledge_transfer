@@ -103,6 +103,13 @@ def train(data_loader,net,cost_fun,device,optimizer):
     return cumulative_loss/samples, cumulative_accuracy/samples*100
 
 def main(epochs, batch_size, test_batch_size,val_percentage,lr,test_freq,device,save_filename, res_depth, res_width):
+    print('Architecture: WRN-' + str(res_depth) + '-' + str(res_width))
+    print('Epochs: ' + str(epochs) + ' batch_size: ' + str(batch_size) + ' test_batch_size: ' + str(test_batch_size))
+    print('Save and test frequency ' + str(test_freq) + ' model filename: ' + str(save_filename)
+    print('LR: ' + str(lr) + ' momentum: ' + str(0.9) + ' weight decay: ' + str(5e-4))
+    print('LR Scheduler: gamma= ' + str(0.2) + ' steps: [' + str(int(epochs*0.3)) + ',' + str(int(epochs*0.6)) + str(int(epochs*0.8)) )
+    print('data augmentation: random crop 32, padding 4, random horizontal flip, random rotation 20,ColorJitter(brightness=0.03, contrast=0.03, saturation=0.03, hue=0.03')
+    
     
     # Define cost function
     cost_function = torch.nn.CrossEntropyLoss()
@@ -133,7 +140,7 @@ def main(epochs, batch_size, test_batch_size,val_percentage,lr,test_freq,device,
         print('\t Training loss: \t {:.6f}, \t Training accuracy \t {:.2f}'.format(train_loss, train_accuracy))
         print('\t Validation loss: \t {:.6f},\t Validation accuracy \t {:.2f}'.format(val_loss, val_accuracy))
         
-        if((e+1) % test_freq) == 0:
+        if((e) % test_freq) == 0:
             test_loss, test_accuracy = test(test_loader,net,cost_function,device)
             print('Test loss: \t {:.6f}, \t \t Test accuracy \t {:.2f}'.format(test_loss, test_accuracy))
             torch.save(net.state_dict(), save_filename)
@@ -159,7 +166,7 @@ def main(epochs, batch_size, test_batch_size,val_percentage,lr,test_freq,device,
 
 
 # Parameters
-epochs = 350
+epochs = 352
 batch_size = 128
 test_batch_size = 128
 val_percentage = 0.01
