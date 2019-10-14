@@ -2,10 +2,7 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 import torch.nn.functional as F
-import matplotlib.pyplot as plt
 import numpy as np
-from torchsummary import summary
-import torch.nn.functional as F
 import sys
 sys.path.append('../')
 
@@ -73,11 +70,11 @@ def KT_loss_student(student_logits, teacher_logits, student_activations, teacher
 
 
 def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,test_freq,beta, t_depth, t_width,
-        s_depth, s_width, teacher_file, student_file, device):
+        s_depth, s_width, teacher_file, student_file, device,teach_device):
     
     # Print info experiment
     print('Architecture teacher : WRN-' + str(t_depth) + '-' + str(t_width) + ' , from file ' + str(teacher_file))
-    print('Architecture student : WRN-' + str(s_depth) + '-' + str(s_width))
+    print('Architecture student : WRN-' + str(s_depth) + '-' + str(s_width)+ ' , to file ' + str(student_file))
     print('Batches: ' + str(n_batches) + ' , batch_size ' + str(batch_size) + ' , test_batch_size ' + str(test_batch_size))
     print('Student lr: ' + str(lr_gen) + ' , Generator lr: ' + str(lr_gen) + ' , Beta: ' + str(beta))
     print('Ng: ' + str(ng) + ' , Ns: ' + str(ns))
@@ -89,8 +86,8 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     
     # Get the teacher
     teacher = Wide_ResNet(t_depth,t_width,0,10)
+    teacher.load_state_dict(torch.load(teacher_file, map_location={teach_device: device}))
     teacher = teacher.to(device)
-    teacher.load_state_dict(torch.load(teacher_file))
     
     # Create the generator
     generator = Generator(z_dim=g_input_dim)
@@ -130,7 +127,9 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             gen_imgs = generator(noise)
             gen_imgs = gen_imgs.to(device)
 
-            teacher_pred, *teacher_activations = teacher(gen_imgs)
+            with torch.no_grad(): # no_grad speeds up computation
+                teacher_pred, *teacher_activations = teacher(gen_imgs)
+                
             student_pred, *student_activations = student(gen_imgs)
 
             gen_loss = KT_loss_generator(student_pred,teacher_pred)
@@ -148,7 +147,10 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
         for j in range(ns):
             student.train()
             gen_imgs = generator(noise)
-            teacher_pred, *teacher_activations = teacher(gen_imgs)
+            
+            with torch.no_grad(): # no_grad speeds up computation
+                teacher_pred, *teacher_activations = teacher(gen_imgs)
+            
             student_pred, *student_activations = student(gen_imgs)
             
             stud_loss = KT_loss_student(student_pred,teacher_pred, student_activations,teacher_activations, beta )
@@ -190,9 +192,9 @@ t_width = 2
 s_depth = 16
 s_width = 2
 teacher_file = '../pretrained_models/teacher-40-2.pth'
-student_file = '../trained_students/student-' + str(s_depth) + '-' + str(s_width) + '.pth'
+student_file = '../trained_students/t- ' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
 device = 'cuda:0'
+teach_device= 'cuda:1'
     
 main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,test_freq,beta, t_depth, t_width,
-        s_depth, s_width, teacher_file, student_file, device)
-    
+        s_depth, s_width, teacher_file, student_file, device, teach_device)
