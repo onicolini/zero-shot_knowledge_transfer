@@ -133,7 +133,9 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             gen_imgs = generator(noise)
             gen_imgs = gen_imgs.to(device)
 
-            teacher_pred, *teacher_activations = teacher(gen_imgs)
+            with torch.no_grad(): # no_grad speeds up computation
+                teacher_pred, *teacher_activations = teacher(gen_imgs)
+            
             student_pred, *student_activations = student(gen_imgs)
 
             gen_loss = KT_loss_generator(student_pred,teacher_pred)
@@ -151,7 +153,10 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
         for j in range(ns):
             student.train()
             gen_imgs = generator(noise)
-            teacher_pred, *teacher_activations = teacher(gen_imgs)
+            
+            with torch.no_grad(): # no_grad speeds up computation
+                teacher_pred, *teacher_activations = teacher(gen_imgs)
+            
             student_pred, *student_activations = student(gen_imgs)
             
             stud_loss = KT_loss_student(student_pred,teacher_pred, student_activations,teacher_activations, beta )

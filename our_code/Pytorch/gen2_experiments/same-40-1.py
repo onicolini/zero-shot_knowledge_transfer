@@ -186,15 +186,15 @@ g_input_dim = 100
 ng = 1
 ns = 10
 test_freq = 100
-beta = 2500
+beta = 250
 t_depth = 40
-t_width = 2
-s_depth = 16
+t_width = 1
+s_depth = 40
 s_width = 1
-teacher_file = '../pretrained_models/teacher-40-2.pth'
-student_file = './ablation-beta-' + str(beta) + '-t- ' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
+teacher_file = '../pretrained_models/teacher-40-1.pth'
+student_file = './same-architecture-beta-' + str(beta) + '-t- ' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
 device = 'cuda:0'
-teach_device= 'cuda:1'
+teach_device= 'cuda:0'
     
 main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,test_freq,beta, t_depth, t_width,
         s_depth, s_width, teacher_file, student_file, device, teach_device)
