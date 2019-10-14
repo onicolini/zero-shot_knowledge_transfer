@@ -189,7 +189,7 @@ t_depth = 40
 t_width = 2
 s_depth = 16
 s_width = 2
-teacher_file = '../pretrained_models/cifar_net_test.pth'
+teacher_file = '../pretrained_models/teacher-40-2.pth'
 student_file = '../trained_students/student-' + str(s_depth) + '-' + str(s_width) + '.pth'
 device = 'cuda:0'
     
