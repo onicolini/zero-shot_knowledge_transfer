@@ -124,6 +124,12 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
         
         gen_loss_print = 0
         
+        if i>(n_batches/3):
+            ng = 2
+            
+        if i>(2*(n_batches/3)):
+            ng = 4
+        
         for j in range(ng):
             gen_imgs = generator(noise)
             gen_imgs = gen_imgs.to(device)
