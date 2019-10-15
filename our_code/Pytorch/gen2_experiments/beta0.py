@@ -97,6 +97,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     # Create the student
     student = Wide_ResNet(s_depth,s_width,0,10)
     student = student.to(device)
+    student.train()
     
     # Create optimizers (Adam) and LRschedulers(CosineAnnealing) for the generator and the student
     generator_optim = torch.optim.Adam(generator.parameters(), lr=lr_gen)
@@ -127,9 +128,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             gen_imgs = generator(noise)
             gen_imgs = gen_imgs.to(device)
 
-            with torch.no_grad(): # no_grad speeds up computation
-                teacher_pred, *teacher_activations = teacher(gen_imgs)
-            
+            teacher_pred, *teacher_activations = teacher(gen_imgs)
             student_pred, *student_activations = student(gen_imgs)
 
             gen_loss = KT_loss_generator(student_pred,teacher_pred)
@@ -144,13 +143,11 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
         print('Gen loss :' + str(gen_loss_print/ng) )
         
         stud_loss_print = 0
-        for j in range(ns):
-            student.train()
-            gen_imgs = generator(noise)
-            
+        for j in range(ns):    
             with torch.no_grad(): # no_grad speeds up computation
                 teacher_pred, *teacher_activations = teacher(gen_imgs)
-            
+                gen_imgs = generator(noise)
+                
             student_pred, *student_activations = student(gen_imgs)
             
             stud_loss = KT_loss_student(student_pred,teacher_pred, student_activations,teacher_activations, beta )
@@ -172,6 +169,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             print('\t Test loss: \t {:.6f}, \t Test accuracy \t {:.2f}'.format(test_loss, test_accuracy))
             print('Saving')
             torch.save(student.state_dict(),student_file)
+            student.train()
             
     print('Finished and saving')
     torch.save(student.state_dict(),student_file)
@@ -191,8 +189,8 @@ t_depth = 40
 t_width = 2
 s_depth = 16
 s_width = 1
-teacher_file = '../pretrained_models/teacher-40-2.pth'
-student_file = './ablation-beta-' + str(beta) + '-t- ' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
+teacher_file = '../pretrained_models/teacher-'+str(t_depth) + '-' + str(t_width) + '.pth'
+student_file = './ablation_beta' + str(beta) + 't-' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
 device = 'cuda:0'
 teach_device= 'cuda:1'
     
