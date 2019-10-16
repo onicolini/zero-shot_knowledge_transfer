@@ -104,7 +104,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     gen_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(generator_optim, n_batches)
     
     student_optim = torch.optim.Adam(student.parameters(), lr=lr_stud)
-    stud_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(generator_optim, n_batches)
+    stud_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(student_optim, n_batches)
     
     print('Teacher net test:')
     test_loss, test_accuracy = test(test_loader,teacher,device)
@@ -176,7 +176,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             
     
 n_batches = 80001
-lr_gen = 2e-3
+lr_gen = 1e-3
 lr_stud = 2e-3
 batch_size = 128
 test_batch_size = 128
