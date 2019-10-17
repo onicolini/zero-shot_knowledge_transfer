@@ -140,8 +140,6 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             
             gen_loss_print += gen_loss.item()
         
-        print('Gen loss :' + str(gen_loss_print/ng) )
-        
         stud_loss_print = 0
         for j in range(ns):    
             with torch.no_grad(): # no_grad speeds up computation
@@ -157,13 +155,13 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             student_optim.step()
             
             stud_loss_print += stud_loss.item()
-        
-        print('Stud loss :' + str(stud_loss_print/ns) )
             
         stud_scheduler.step()
         gen_scheduler.step()
         
         if(i % test_freq) == 0:
+            print('Gen loss :' + str(gen_loss_print/ng) )
+            print('Stud loss :' + str(stud_loss_print/ns) )
             print('Student net test:')
             test_loss, test_accuracy = test(test_loader,student,device)
             print('\t Test loss: \t {:.6f}, \t Test accuracy \t {:.2f}'.format(test_loss, test_accuracy))
