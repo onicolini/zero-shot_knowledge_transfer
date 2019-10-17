@@ -118,7 +118,6 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     print('Starting training')
     
     for i in range(n_batches):
-        print('Batch ' + str(i))
         noise = torch.randn(batch_size,g_input_dim)
         noise = noise.to(device)
         
