@@ -167,9 +167,15 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
             print('Saving')
             torch.save(student.state_dict(),student_file)
             student.train()
+
+            gen_file = './CIFAR10-beta25-generator-t' + str(t_depth) + '-' + str(t_width) + '-s-' + str(s_depth) + '-' + str(s_width) + '.pth'
+            torch.save(generator.state_dict(),gen_file)
             
     print('Finished and saving')
     torch.save(student.state_dict(),student_file)
+
+    gen_file = './CIFAR10-beta25-generator-t' + str(t_depth) + '-' + str(t_width) + '-s-' + str(s_depth) + '-' + str(s_width) + '.pth'
+    torch.save(generator.state_dict(),gen_file)
             
     
 n_batches = 80001
