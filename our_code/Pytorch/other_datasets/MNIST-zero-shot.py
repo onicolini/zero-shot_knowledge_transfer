@@ -4,10 +4,9 @@ import torchvision.transforms as transforms
 import torch.nn.functional as F
 import numpy as np
 import sys
-sys.path.append('../')
+from channel_wide_res_net import Channel_Wide_ResNet
 
-from wideresnet import Wide_ResNet
-from generator import Generator
+from generator_mnist import Generator
 
 '''
 Function that loads the dataset and returns the data-loaders
@@ -15,22 +14,23 @@ Function that loads the dataset and returns the data-loaders
 def getData(batch_size,test_batch_size,val_percentage):
     # Normalize the training set with data augmentation
     transform_train = transforms.Compose([ 
-        transforms.RandomCrop(32, padding=4),
+        torchvision.transforms.Resize(32),
         transforms.RandomHorizontalFlip(),
         torchvision.transforms.RandomRotation(20),
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        transforms.Normalize((0.1307,), (0.3081,)),
     ])
     
     # Normalize the test set same as training set without augmentation
     transform_test = transforms.Compose([ 
+        torchvision.transforms.Resize(32),
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        transforms.Normalize((0.1307,), (0.3081,)),
     ])
 
     # Download/Load data
-    full_training_data = torchvision.datasets.SVHN('/home/test/data',split='train',transform=transform_train,download=True)  
-    test_data = torchvision.datasets.SVHN('/home/test/data',split='test',transform=transform_test,download=True)  
+    full_training_data = torchvision.datasets.MNIST('/home/test/data',train = True,transform=transform_train,download=True)  
+    test_data = torchvision.datasets.MNIST('/home/test/data',train = False,transform=transform_test,download=True)  
 
     # Create train and validation splits
     num_samples = len(full_training_data)
@@ -39,9 +39,9 @@ def getData(batch_size,test_batch_size,val_percentage):
     training_data, validation_data = torch.utils.data.random_split(full_training_data, [training_samples, validation_samples])
 
     # Initialize dataloaders
-    train_loader = torch.utils.data.DataLoader(training_data,batch_size=batch_size,shuffle=True)
-    val_loader = torch.utils.data.DataLoader(validation_data,batch_size=batch_size,shuffle=False)
-    test_loader = torch.utils.data.DataLoader(test_data,batch_size=test_batch_size,shuffle=False)
+    train_loader = torch.utils.data.DataLoader(training_data,batch_size=batch_size,shuffle=True, drop_last=True, num_workers = 4)
+    val_loader = torch.utils.data.DataLoader(validation_data,batch_size=batch_size,shuffle=False, drop_last=False, num_workers = 2)
+    test_loader = torch.utils.data.DataLoader(test_data,batch_size=test_batch_size,shuffle=False, drop_last=False, num_workers = 2)
 
     return train_loader, val_loader, test_loader
 
@@ -150,7 +150,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     train_loader, val_loader, test_loader = getData(batch_size,test_batch_size,0.1)
     
     # Get the teacher
-    teacher = Wide_ResNet(t_depth,t_width,0,10)
+    teacher = Channel_Wide_ResNet(1,t_depth,t_width,0,10)
     teacher.load_state_dict(torch.load(teacher_file, map_location={teach_device: device}))
     teacher = teacher.to(device)
     
@@ -160,7 +160,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     generator.train()
     
     # Create the student
-    student = Wide_ResNet(s_depth,s_width,0,10)
+    student = Channel_Wide_ResNet(1,s_depth,s_width,0,10)
     student = student.to(device)
     student.train()
     
@@ -238,7 +238,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     torch.save(student.state_dict(),student_file)
             
     
-n_batches = 50001
+n_batches = 15000
 lr_gen = 1e-3
 lr_stud = 2e-3
 batch_size = 128
@@ -252,8 +252,8 @@ t_depth = 40
 t_width = 2
 s_depth = 16
 s_width = 1
-teacher_file = './SVHN-teacher-'+str(t_depth) + '-' + str(t_width) + '.pth'
-student_file = './SVHNstud-t-' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
+teacher_file = './MNIST-teacher-'+str(t_depth) + '-' + str(t_width) + '.pth'
+student_file = './MNIST-stud-t-' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
 device = 'cuda:0'
 teach_device= 'cuda:0'
     
