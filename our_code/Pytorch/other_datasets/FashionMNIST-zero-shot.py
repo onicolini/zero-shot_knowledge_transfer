@@ -243,7 +243,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     torch.save(generator.state_dict(),gen_file)
             
     
-n_batches = 30000
+n_batches = 35000
 lr_gen = 1e-3
 lr_stud = 2e-3
 batch_size = 128

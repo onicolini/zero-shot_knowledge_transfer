@@ -243,7 +243,7 @@ def main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,t
     torch.save(generator.state_dict(),gen_file)
             
     
-n_batches = 15000
+n_batches = 25000
 lr_gen = 1e-3
 lr_stud = 2e-3
 batch_size = 128
@@ -259,7 +259,7 @@ s_depth = 16
 s_width = 1
 teacher_file = './MNIST-teacher-'+str(t_depth) + '-' + str(t_width) + '.pth'
 student_file = './MNIST-stud-t-' + str(t_depth) + '-' + str(t_width) + '-student-' + str(s_depth) + '-' + str(s_width) + '.pth'
-device = 'cuda:0'
+device = 'cuda:1'
 teach_device= 'cuda:0'
     
 main(n_batches,lr_gen,lr_stud,batch_size,test_batch_size,g_input_dim,ng,ns,test_freq,beta, t_depth, t_width,
