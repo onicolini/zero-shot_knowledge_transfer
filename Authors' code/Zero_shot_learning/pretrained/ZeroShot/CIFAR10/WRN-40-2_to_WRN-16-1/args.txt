@@ -1,0 +1,25 @@
+dataset 	 CIFAR10
+total_n_pseudo_batches 	 80000
+n_generator_iter 	 1
+n_student_iter 	 10
+batch_size 	 128
+z_dim 	 100
+student_learning_rate 	 0.002
+generator_learning_rate 	 0.001
+teacher_architecture 	 WRN-40-2
+student_architecture 	 WRN-16-1
+KL_temperature 	 1.0
+AT_beta 	 250.0
+pretrained_models_path 	 /disk/scratch/s1771851/Pretrained/
+datasets_path 	 /disk/scratch/s1771851/Datasets/Pytorch
+log_directory_path 	 /afs/inf.ed.ac.uk/user/s17/s1771851/logs
+save_final_model 	 True
+save_n_checkpoints 	 0
+save_model_path 	 /afs/inf.ed.ac.uk/user/s17/s1771851/logs
+seeds 	 [0, 1, 2]
+workers 	 2
+use_gpu 	 True
+log_freq 	 800
+dataset_path 	 /disk/scratch/s1771851/Datasets/Pytorch/CIFAR10
+device 	 cuda
+experiment_name 	 ZEROSHOTKT_CIFAR10_WRN-40-2_WRN-16-1_gi1_si10_zd100_plr0.001_slr0.002_bs128_T1.0_beta250.0/ZEROSHOTKT_CIFAR10_WRN-40-2_WRN-16-1_gi1_si10_zd100_plr0.001_slr0.002_bs128_T1.0_beta250.0_seed0
