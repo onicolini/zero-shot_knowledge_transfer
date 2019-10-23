@@ -15,8 +15,10 @@ Then there is the Pytorch folder. In the main folder we can find 4 files:
  - cifar10utils.py: utils to download, get the dataloader and test a network on CIFAR10
  - generator.py: the generator network, taken directly from the authors' code
  - wideresnet.py: a modification of https://github.com/indussky8/wide-resnet.pytorch/blob/master/networks/wide_resnet.py to have a WideResNetwork with also the activations as output
- - zero-shot-baseline.py: the complete code to run a zero-shot algorithm from a pretrained models. All the experiments use a variation of this file
+ - zero-shot-baseline.py: the complete code to run a zero-shot algorithm from a pretrained models. All the experiments use a variation of this file. 
+
 These four files are all you need to run a zero-shot algorithm. Modifying zero-shot-baseline.py we created our experiments and we divide the in folders 
+
 Then we find 5 folders:
  - pretrained_models: contains the teachers with the code used to create them
  - Basic_experiments: contrains the code to run the six experiments on the CIFAR10 of the paper, with in the folder trained_students the resulting students, to use them for the transition curves
