@@ -24,4 +24,6 @@ Then we find 5 folders:
  - Basic_experiments: contrains the code to run the six experiments on the CIFAR10 of the paper, with in the folder trained_students the resulting students, to use them for the transition curves
 - Advanced_experiments: contrains the code to run the advanced experiments (different betas ecc..) on the CIFAR10, with in the folder trained_students the resulting students, to use them for the transition curves
  - Other_dataset_experiments: contains the code to another WideResNet that accepts as input one channel images for MINST(and FashionMNIST), and also a generator that creates one channel images for MNIST (and FashionMNIST), then the code to train teachers on MNIST, FashionMNIST, SVHN and CIFAR100, the trained teachers and the code to run a zero-shot on each of these teachers. All the resulting students (and generators) are saved in the folder trained_students, to use them for the transition curves
+ - Transition curves: with the code for the transition curves
+
 Due to the fact that we have saved all the pretrained models, both ours and from the authors, the Github folder is quite heavy.
