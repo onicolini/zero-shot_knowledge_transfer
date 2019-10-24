@@ -10,16 +10,11 @@ from generator import Generator
 from cifar10utils import getData, test
 
 '''
-generator loss:
-@output : logits of the student
-@output : logits of the teacher
-
 for the KL div as said here https://discuss.pytorch.org/t/kl-divergence-produces-negative-values/16791/4
 and here https://discuss.pytorch.org/t/kullback-leibler-divergence-loss-function-giving-negative-values/763/2
 the inputs should be logprobs for the output(student) and probabilities for the targets(teacher)
 
 this was very difficult to understand 
-
 '''
 def attention(x):
     """
