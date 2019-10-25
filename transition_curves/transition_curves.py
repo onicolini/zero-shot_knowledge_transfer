@@ -158,7 +158,7 @@ for nomi in cons.model_names:
                             sumsB[k] += p_j_B
                     c += 1
                     MTE_partial_1 += MTE_partial_0 / cons.adv_steps
-            MTE = MTE_partial_1 / cons.num_classes
+            MTE = +MTE_partial_1 / cons.num_classes
     MTE = MTE / cons.num_images
 
     #Apro il file delle medie    
