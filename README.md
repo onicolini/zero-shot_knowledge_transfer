@@ -1,5 +1,5 @@
 # Advanced Deep Learning
-Advanced Deep Learning project to do during Period 1 (September and October) 2019 an KTH.
+Advanced Deep Learning project to do during Period 1 (September and October) 2019 at KTH.
 The task is to reproduce and reimplement the paper "Zero-shot Knowledge Transfer via Adversarial Belief Matching" (https://arxiv.org/pdf/1905.09768.pdf) presented at NIPS 2019. 
 The project has been done by Olivier Nicolini, Matteo Tadiello and Simone Zamboni.
 
@@ -20,10 +20,10 @@ Then there is the Pytorch folder. In the main folder we can find 4 files:
 These four files are all you need to run a zero-shot algorithm. Modifying zero-shot-baseline.py we created our experiments and we divide the in folders 
 
 Then we find 5 folders:
- - pretrained_models: contains the teachers with the code used to create them
- - Basic_experiments: contrains the code to run the six experiments on the CIFAR10 of the paper, with in the folder trained_students the resulting students, to use them for the transition curves
-- Advanced_experiments: contrains the code to run the advanced experiments (different betas ecc..) on the CIFAR10, with in the folder trained_students the resulting students, to use them for the transition curves
+ - pretrained_models: It contains the teachers with the code used to create them
+ - Basic_experiments: It contains the code to run the six experiments on the CIFAR10 of the paper, with in the folder trained_students the resulting students, to use them for the transition curves
+- Advanced_experiments: It contains the code to run the advanced experiments (different betas ecc..) on the CIFAR10, with in the folder trained_students the resulting students, to use them for the transition curves
  - Other_dataset_experiments: contains the code to another WideResNet that accepts as input one channel images for MINST(and FashionMNIST), and also a generator that creates one channel images for MNIST (and FashionMNIST), then the code to train teachers on MNIST, FashionMNIST, SVHN and CIFAR100, the trained teachers and the code to run a zero-shot on each of these teachers. All the resulting students (and generators) are saved in the folder trained_students, to use them for the transition curves
- - Transition curves: with the code for the transition curves
+ - Transition curves: Here we can find the code for have the transition curves. To execute them we have first to modify the constant file: set the path for the models and the name of the models that we want. Then run transition_curves.py and finally print_csv.py for having the image of the avarage transition curves.
 
 Due to the fact that we have saved all the pretrained models, both ours and from the authors, the Github folder is quite heavy.
