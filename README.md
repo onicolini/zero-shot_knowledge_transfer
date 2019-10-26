@@ -2,6 +2,7 @@
 Advanced Deep Learning project done for the Advanced Deep Learning course held by Hossein Azizpour during Period 1 (September and October) 2019 at KTH.
 The task was to reproduce and reimplement the paper "Zero-shot Knowledge Transfer via Adversarial Belief Matching" (https://arxiv.org/pdf/1905.09768.pdf) presented at NIPS 2019. 
 The project has been done by Olivier Nicolini, Matteo Tadiello and Simone Zamboni.
+In this repository the report for the course project can be found.
 
 # Author's code
 The first folder is the "Authors' code". There are two more subfolders. 
