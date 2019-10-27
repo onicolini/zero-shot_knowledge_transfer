@@ -18,8 +18,6 @@ Then there is the Pytorch folder. This is the folder where our working reimpleme
  - zero-shot-baseline.py: the complete code to run a zero-shot algorithm from a pretrained model. All the experiments use a variation of this file. *This is the file to be modified to run custom experiments*.
 The following table shows the obtained results:
 
-![text](https://github.com/SZamboni/advanceddeep/blob/master/Our_code/Pytorch/Basic_experiments/table_CIFAR10_ours.png?style=centerme)
-
 <p align="center">
   <img src="https://github.com/SZamboni/advanceddeep/blob/master/Our_code/Pytorch/Basic_experiments/table_CIFAR10_ours.png">
 </p>
