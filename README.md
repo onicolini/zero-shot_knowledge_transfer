@@ -20,8 +20,6 @@ The following table shows the obtained results:
 
 ![text](https://github.com/SZamboni/advanceddeep/blob/master/Our_code/Pytorch/Basic_experiments/table_CIFAR10_ours.png?style=centerme)
 
-<img align="center" width="513" height="195" src="https://github.com/SZamboni/advanceddeep/blob/master/Our_code/Pytorch/Basic_experiments/table_CIFAR10_ours.png">
-
 <p align="center">
   <src="https://github.com/SZamboni/advanceddeep/blob/master/Our_code/Pytorch/Basic_experiments/table_CIFAR10_ours.png">
 </p>
