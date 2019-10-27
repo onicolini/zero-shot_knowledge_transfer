@@ -22,6 +22,10 @@ The following table shows the obtained results:
 
 <img align="center" width="513" height="195" src="https://github.com/SZamboni/advanceddeep/blob/master/Our_code/Pytorch/Basic_experiments/table_CIFAR10_ours.png">
 
+<p align="center">
+  <src="https://github.com/SZamboni/advanceddeep/blob/master/Our_code/Pytorch/Basic_experiments/table_CIFAR10_ours.png">
+</p>
+
 These four files are all you need to run a zero-shot algorithm. Modifying zero-shot-baseline.py we created our experiments and we divide the in folders.
 
 Other 5 folders can be found inside this directory:
